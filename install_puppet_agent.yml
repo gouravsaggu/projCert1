@@ -1,0 +1,15 @@
+---
+- name: Install and Configure Puppet Agent
+  hosts: test_server  # Replace with your Test Server's hostname or IP
+  become: yes
+  tasks:
+    - name: Install Puppet agent
+      apt:
+        name: puppet-agent
+        state: present  # Use 'yum' and 'state: latest' for CentOS
+
+    - name: Start and enable Puppet service
+      systemd:
+        name: puppet
+        enabled: yes
+        state: started
