@@ -1,19 +1,56 @@
-pipeline{
+pipeline {
     agent {label 'slavenode'}
-    environment{
-        staging_server="172.31.15.126"
+
+   pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE_NAME = 'my-web-app'
+        CONTAINER_NAME = 'my-web-container'
+        DOCKERFILE_PATH = 'https://github.com/gouravsaggu/projCert1/blob/a266683a9142dd7185a8d621b0f5900ade05f1b4/dockerfile' // Path to your Dockerfile
+        PHP_APP_REPO = 'https://github.com/gouravsaggu/projCert1/tree/a266683a9142dd7185a8d621b0f5900ade05f1b4/website' // Git repository URL of your PHP application
     }
-    stages{
-        stage('Deploy to Remote'){
-            steps{
-                sh '''
-                    for fileName in `find ${WORKSPACE} -type f -mmin -10 | grep -v ".git" | grep -v "jenkinsjob3"`
-                    do
-                        fil=$(echo ${jenkinsjob3} | sed 's/'"${JOB_NAME}"'/ /' | awk {'print $2'})
-                        scp -r ${WORKSPACE}${fil} root@${staging_server}:/var/www/html${fil}
-                    done
-                '''
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                // Check out your source code from version control (e.g., Git)
+                checkout scm
             }
+        }
+
+        stage('Clone PHP Application') {
+            steps {
+                // Clone your PHP application from its Git repository
+                sh "git clone ${PHP_APP_REPO} php-website"
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                // Build the Docker image using the Dockerfile
+                script {
+                    sh "docker build -t ${DOCKER_IMAGE_NAME} -f ${DOCKERFILE_PATH} ."
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                // Run the Docker container based on the built image
+                script {
+                    sh "docker run -d -p 8080:80 --name ${CONTAINER_NAME} ${DOCKER_IMAGE_NAME}"
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed!'
         }
     }
 }
