@@ -2,7 +2,7 @@
 FROM devopsedu/webapps
 
 # Copy your PHP application files to the web server's directory
-ADD proj /var/www/html
+ADD website /var/www/html
 
 # Remove the default index.html (if necessary)
 RUN rm /var/www/html/index.html
