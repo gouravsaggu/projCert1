@@ -4,8 +4,8 @@ pipeline {
     environment {
         DOCKER_IMAGE_NAME = 'my-web-app'
         CONTAINER_NAME = 'my-web-container'
-        DOCKERFILE_PATH = 'https://github.com/gouravsaggu/projCert1/blob/a266683a9142dd7185a8d621b0f5900ade05f1b4/dockerfile' // Path to your Dockerfile
-        PHP_APP_REPO = 'https://github.com/gouravsaggu/projCert1/tree/a266683a9142dd7185a8d621b0f5900ade05f1b4/website' // Git repository URL of your PHP application
+        DOCKERFILE_PATH = 'dockerfile' // Path to your Dockerfile
+        PHP_APP_REPO = 'website' // Git repository URL of your PHP application
     }
 
     stages {
