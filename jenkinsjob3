@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE_NAME = 'my-web-app'
         CONTAINER_NAME = 'my-web-container'
         DOCKERFILE_PATH = 'dockerfile' // Path to your Dockerfile
-        PHP_APP_REPO = 'website' // Git repository URL of your PHP application
+        PHP_APP_REPO = 'https://github.com/gouravsaggu/projCert1/tree/master/website' // Git repository URL of your PHP application
     }
 
     stages {
