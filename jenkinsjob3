@@ -1,9 +1,6 @@
 pipeline {
     agent {label 'slavenode'}
 
-   pipeline {
-    agent any
-
     environment {
         DOCKER_IMAGE_NAME = 'my-web-app'
         CONTAINER_NAME = 'my-web-container'
